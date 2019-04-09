@@ -13,7 +13,7 @@ using System.Net.Sockets;
 
 namespace SetDateTime
 {
-    
+
     class Program
     {
         public static DateTime GetNetworkTimeUtc(string ntpServer = "time.windows.com")
@@ -37,7 +37,7 @@ namespace SetDateTime
                 socket.Send(ntpData);
                 socket.Receive(ntpData);
             }
-            
+
             //Offset to get to the "Transmit Timestamp" field (time at which the reply 
             //departed the server for the client, in 64-bit timestamp format."
             const byte serverReplyTime = 40;
@@ -96,6 +96,7 @@ namespace SetDateTime
     }
         static void Main()
         {
+        	string SNTPServer = "www.belgim.by";
             DateTime date1 = new DateTime();
             DateTime date2;
             Boolean boolexit = false;
@@ -108,7 +109,7 @@ namespace SetDateTime
                 GetSystemTime(ref sysTime);
                 date1 = DateTime.Now;
                 Console.WriteLine("Текущее время: {0}", date1);
-                Console.WriteLine("Текущее время sntp: {0}", GetNetworkTimeUtc("10.177.128.2"));
+                Console.WriteLine("Текущее время sntp: {0}", GetNetworkTimeUtc(SNTPServer));
                 Console.WriteLine("Введите смещение в минутах -1,0,1,n. Для выхода нажмите Enter: ");
                 string offset = Console.ReadLine();
                 switch (offset)
@@ -117,7 +118,7 @@ namespace SetDateTime
                         boolexit = true;
                         break;
                     case "n":
-                        SetDateTime(GetNetworkTimeUtc("10.177.128.2"));
+                        SetDateTime(GetNetworkTimeUtc(SNTPServer));
                         break;
                     case "-1":
                         date1 = DateTime.Now;
@@ -160,4 +161,3 @@ namespace SetDateTime
 
 
 }
-
